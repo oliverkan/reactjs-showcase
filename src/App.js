@@ -6,6 +6,7 @@ import "./App.css";
 import Login from "./views/login";
 import Register from "./views/register";
 import Home from "./views/home";
+import User from "./views/user";
 
 import AuthService from "./services/authService";
 
@@ -44,7 +45,7 @@ class App extends Component {
                 <div>
                     <nav className="navbar navbar-expand navbar-dark bg-dark">
                         <Link to={"/"} className="navbar-brand">
-                            bezKoder
+                            Etsoft
                         </Link>
                         <div className="navbar-nav mr-auto">
                             <li className="nav-item">
@@ -82,7 +83,7 @@ class App extends Component {
                             <div className="navbar-nav ml-auto">
                                 <li className="nav-item">
                                     <Link to={"/profile"} className="nav-link">
-                                        {currentUser.username}
+                                        {currentUser.userName}
                                     </Link>
                                 </li>
                                 <li className="nav-item">
@@ -112,9 +113,9 @@ class App extends Component {
                         <Switch>
                             <Route exact path={["/", "/home"]} component={Home}/>
                             <Route exact path="/login" component={Login}/>
-                            {/*<Route exact path="/register" component={Register} />
-                            <Route exact path="/profile" component={Profile} />
-                            <Route path="/user" component={BoardUser} />
+                            <Route exact path="/register" component={Register} />
+                            <Route path="/user" component={User} />
+                           {/* <Route exact path="/profile" component={Profile} />
                             <Route path="/mod" component={BoardModerator} />
                             <Route path="/admin" component={BoardAdmin} />*/}
                         </Switch>
