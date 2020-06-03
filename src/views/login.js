@@ -7,9 +7,6 @@ import AuthService from "../services/authService";
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        this.handleLogin = this.handleLogin.bind(this);
-        this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
 
         this.state = {
             username: "",
@@ -19,19 +16,12 @@ export default class Login extends Component {
         };
     }
 
-    onChangeUsername(e) {
-        this.setState({
-            username: e.target.value
-        });
+    handleTextChange = (event) =>{
+        let name = event.target.name;
+        this.setState({[name]: event.target.value});
     }
 
-    onChangePassword(e) {
-        this.setState({
-            password: e.target.value
-        });
-    }
-
-    handleLogin(e) {
+    handleLogin = (e) => {
         e.preventDefault();
 
         this.setState({
@@ -79,7 +69,7 @@ export default class Login extends Component {
                                 className="form-control"
                                 name="username"
                                 value={this.state.username}
-                                onChange={this.onChangeUsername}
+                                onChange={this.handleTextChange}
 
                             />
                         </div>
@@ -91,7 +81,7 @@ export default class Login extends Component {
                                 className="form-control"
                                 name="password"
                                 value={this.state.password}
-                                onChange={this.onChangePassword}
+                                onChange={this.handleTextChange}
                             />
                         </div>
                         <div className="form-group">

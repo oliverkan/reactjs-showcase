@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 import UserService from "../services/userService";
 import AuthService from "../services/authService";
@@ -12,10 +12,11 @@ export default class Home extends Component {
         };
     }
 
-    fullName= () => this.state.content.name + ' ' + this.state.content.lastName;
+    fullName = () => this.state.content.name + ' ' + this.state.content.lastName;
 
     componentDidMount() {
-        UserService.getUsersDetail(AuthService.getCurrentUser().id).then(
+        let loggedInUser = AuthService.getCurrentUser();
+        UserService.getUsersDetail(loggedInUser.id).then(
             response => {
                 this.setState({
                     content: response
