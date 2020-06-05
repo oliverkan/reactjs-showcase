@@ -16,9 +16,10 @@ export default class Login extends Component {
         };
     }
 
-    handleTextChange = (event) =>{
+    handleTextChange = (event) => {
         let name = event.target.name;
-        this.setState({[name]: event.target.value});
+        let value = event.target.value;
+        this.setState({[name]: value});
     }
 
     handleLogin = (e) => {
@@ -26,12 +27,15 @@ export default class Login extends Component {
 
         this.setState({
             message: "",
-            loading: true
+            loading: true,
+            redirectToReferrer: false
         });
 
         AuthService.login(this.state.username, this.state.password).then(
             () => {
-                this.props.history.push("/home");
+                //find referrer address
+                const {from} = this.props.location.state || {from: {pathname: '/'}};
+                this.props.history.push(from);
                 window.location.reload();
             },
             error => {
@@ -70,7 +74,6 @@ export default class Login extends Component {
                                 name="username"
                                 value={this.state.username}
                                 onChange={this.handleTextChange}
-
                             />
                         </div>
 
@@ -95,6 +98,13 @@ export default class Login extends Component {
                                 <span>Login</span>
                             </button>
                         </div>
+                        {this.state.message && (
+                            <div className="form-group">
+                                <div className="alert alert-danger" role="alert">
+                                    {this.state.message}
+                                </div>
+                            </div>
+                        )}
                     </Form>
                 </div>
             </div>
