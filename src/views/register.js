@@ -56,9 +56,11 @@ export default class Register extends Component {
             name: "",
             lastName: "",
             password: "",
+            selectedRole:"",
             successful: false,
             message: "",
-            countryList: []
+            countryList: [],
+            roleList:[]
         };
     }
 
@@ -67,6 +69,22 @@ export default class Register extends Component {
             response => {
                 this.setState({
                     countryList: response
+                });
+            },
+            error => {
+                this.setState({
+                    content:
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString()
+                });
+            }
+        );
+
+        AuthService.getRoles().then(
+            response => {
+                this.setState({
+                    roleList: response
                 });
             },
             error => {
@@ -102,7 +120,8 @@ export default class Register extends Component {
                 this.state.password,
                 this.state.name,
                 this.state.lastName,
-                this.state.nationality
+                this.state.nationality,
+                this.state.roles
             ).then(
                 response => {
                     this.setState({
@@ -201,6 +220,19 @@ export default class Register extends Component {
                                             <option key={data._id} value={data._id}>
                                                 {data.name}
                                             </option>
+                                            )
+                                        }
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="roles">Role</label>
+                                    <select className="form-control" name="roles" onChange={this.handleChange}>
+                                        <option>Select Item</option>
+                                        {
+                                            this.state.roleList.map((data) =>
+                                                <option key={data._id} value={data._id}>
+                                                    {data.name}
+                                                </option>
                                             )
                                         }
                                     </select>

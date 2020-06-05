@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "../util/authHeader";
 const API_URL = process.env.REACT_APP_API_ADDRESS;
 class AuthService {
     login(username, password) {
@@ -20,7 +21,7 @@ class AuthService {
         localStorage.removeItem("user");
     }
 
-    register(username, email, password, name, lastName, nationality) {
+    register(username, email, password, name, lastName, nationality, roles) {
         console.log(username)
         return axios.post(API_URL + "/auth/register", {
             userName:username,
@@ -28,12 +29,20 @@ class AuthService {
             password,
             name,
             lastName,
-            nationality
+            nationality,
+            roles
         });
     }
 
     getCurrentUser() {
         return JSON.parse(localStorage.getItem('user'));;
+    }
+
+    getRoles() {
+        return axios
+            .get(`${API_URL}/auth/roles`).then(response => {
+                return response.data;
+            });
     }
 }
 
