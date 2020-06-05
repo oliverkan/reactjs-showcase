@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Link, Redirect} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -10,10 +10,21 @@ import User from "./views/user";
 
 import AuthService from "./services/authService";
 
+const PrivateRoute = ({component: Component, ...rest}) => {
+    return (
+        // Show the component only when the user is logged in
+        // Otherwise, redirect the user to /login page
+        <Route {...rest} render={props => (
+            AuthService.getCurrentUser() ?
+                <Component {...props} />
+                : <Redirect to="/login" />
+        )} />
+    );
+};
+
 class App extends Component {
     constructor(props) {
         super(props);
-        this.logOut = this.logOut.bind(this);
 
         this.state = {
             showModeratorBoard: false,
@@ -34,12 +45,14 @@ class App extends Component {
         }
     }
 
-    logOut() {
+    logOut = () => {
         AuthService.logout();
     }
 
     render() {
+
         const {currentUser, showModeratorBoard, showAdminBoard} = this.state;
+
         return (
             <Router>
                 <div>
@@ -62,7 +75,7 @@ class App extends Component {
                                 </li>
                             )}
 
-                            {showAdminBoard && (
+                            {currentUser && (
                                 <li className="nav-item">
                                     <Link to={"/admin"} className="nav-link">
                                         Admin Board
@@ -70,7 +83,7 @@ class App extends Component {
                                 </li>
                             )}
 
-                            {showAdminBoard && (
+                            {currentUser && (
                                 <li className="nav-item">
                                     <Link to={"/user"} className="nav-link">
                                         User
@@ -111,13 +124,11 @@ class App extends Component {
 
                     <div className="container mt-3">
                         <Switch>
-                            <Route exact path={["/", "/home"]} component={Home}/>
-                            <Route exact path="/login" component={Login}/>
+                            <Route path="/login" component={Login}/>
                             <Route exact path="/register" component={Register} />
-                            <Route path="/user" component={User} />
-                           {/* <Route exact path="/profile" component={Profile} />
-                            <Route path="/mod" component={BoardModerator} />
-                            <Route path="/admin" component={BoardAdmin} />*/}
+                            <PrivateRoute exact path={["/", "/home"]} component={Home} />
+                            <PrivateRoute exact path={"/user"} component={User} />
+                             {/*<Route exact path="/profile" component={Profile} />*/}
                         </Switch>
                     </div>
                 </div>
