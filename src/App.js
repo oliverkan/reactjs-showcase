@@ -7,6 +7,7 @@ import Login from "./views/login";
 import Register from "./views/register";
 import Home from "./views/home";
 import User from "./views/user";
+import Profile from "./views/profile";
 
 import AuthService from "./services/authService";
 
@@ -51,14 +52,14 @@ class App extends Component {
 
     render() {
 
-        const {currentUser, showModeratorBoard, showAdminBoard} = this.state;
+        const {currentUser, showAdminBoard} = this.state;
 
         return (
             <Router>
                 <div>
                     <nav className="navbar navbar-expand navbar-dark bg-dark">
                         <Link to={"/"} className="navbar-brand">
-                            Etsoft
+                            Etsoft Ltd
                         </Link>
                         <div className="navbar-nav mr-auto">
                             <li className="nav-item">
@@ -67,23 +68,7 @@ class App extends Component {
                                 </Link>
                             </li>
 
-                            {showModeratorBoard && (
-                                <li className="nav-item">
-                                    <Link to={"/mod"} className="nav-link">
-                                        Moderator Board
-                                    </Link>
-                                </li>
-                            )}
-
-                            {currentUser && (
-                                <li className="nav-item">
-                                    <Link to={"/admin"} className="nav-link">
-                                        Admin Board
-                                    </Link>
-                                </li>
-                            )}
-
-                            {currentUser && (
+                            {showAdminBoard && (
                                 <li className="nav-item">
                                     <Link to={"/user"} className="nav-link">
                                         User
@@ -128,7 +113,7 @@ class App extends Component {
                             <Route exact path="/register" component={Register} />
                             <PrivateRoute exact path={["/", "/home"]} component={Home} />
                             <PrivateRoute exact path={"/user"} component={User} />
-                             {/*<Route exact path="/profile" component={Profile} />*/}
+                            <PrivateRoute exact path={"/profile"} component={Profile} />
                         </Switch>
                     </div>
                 </div>

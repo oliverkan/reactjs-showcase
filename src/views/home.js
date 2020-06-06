@@ -33,6 +33,7 @@ export default class Home extends Component {
     }
 
     fullName = () => this.state.user.name + ' ' + this.state.user.lastName;
+
     chartData = () => {
         return {
             labels: this.state.statistics.filter(s => s.date.startsWith(this.state.year)).map(s => s.date),
@@ -57,7 +58,7 @@ export default class Home extends Component {
 
     componentDidMount() {
         let loggedInUser = AuthService.getCurrentUser();
-        UserService.getUsersDetail(loggedInUser.id).then(
+        UserService.getUsersDetail(loggedInUser._id).then(
             response => {
                 this.setState({
                     user: response
@@ -96,6 +97,7 @@ export default class Home extends Component {
                     <h3>Welcome {this.fullName()}</h3>
                     <p>This a demo project. you can update your details, create new user and delete an other user.</p>
                 </header>
+
                 <div className="form-group row">
                     <label htmlFor="year" className="col-form-label col-form-label-lg col-sm-1">Year:</label>
                     <div className="col-sm-2">

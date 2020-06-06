@@ -56,11 +56,11 @@ export default class Register extends Component {
             name: "",
             lastName: "",
             password: "",
-            selectedRole:"",
+            selectedRole: "",
             successful: false,
             message: "",
             countryList: [],
-            roleList:[]
+            roleList: []
         };
     }
 
@@ -217,9 +217,9 @@ export default class Register extends Component {
                                         <option>Select Item</option>
                                         {
                                             this.state.countryList.map((data) =>
-                                            <option key={data._id} value={data._id}>
-                                                {data.name}
-                                            </option>
+                                                <option key={data._id} value={data._id}>
+                                                    {data.name}
+                                                </option>
                                             )
                                         }
                                     </select>
