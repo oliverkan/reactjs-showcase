@@ -10,6 +10,7 @@ import User from "./views/user";
 import Profile from "./views/profile";
 
 import AuthService from "./services/authService";
+import MainMenu from "./components/mainMenu";
 
 const PrivateRoute = ({component: Component, ...rest}) => {
     return (
@@ -28,8 +29,6 @@ class App extends Component {
         super(props);
 
         this.state = {
-            showModeratorBoard: false,
-            showAdminBoard: false,
             currentUser: undefined
         };
     }
@@ -39,9 +38,7 @@ class App extends Component {
 
         if (user) {
             this.setState({
-                currentUser: user,
-                showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
-                showAdminBoard: user.roles.includes("ROLE_ADMIN")
+                currentUser: user
             });
         }
     }
@@ -51,9 +48,7 @@ class App extends Component {
     }
 
     render() {
-
-        const {currentUser, showAdminBoard} = this.state;
-
+        const {currentUser} = this.state;
         return (
             <Router>
                 <div>
@@ -61,22 +56,7 @@ class App extends Component {
                         <Link to={"/"} className="navbar-brand">
                             Etsoft Ltd
                         </Link>
-                        <div className="navbar-nav mr-auto">
-                            <li className="nav-item">
-                                <Link to={"/home"} className="nav-link">
-                                    Home
-                                </Link>
-                            </li>
-
-                            {showAdminBoard && (
-                                <li className="nav-item">
-                                    <Link to={"/user"} className="nav-link">
-                                        User
-                                    </Link>
-                                </li>
-                            )}
-                        </div>
-
+                        <MainMenu/>
                         {currentUser ? (
                             <div className="navbar-nav ml-auto">
                                 <li className="nav-item">
